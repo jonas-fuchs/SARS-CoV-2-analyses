@@ -2,7 +2,7 @@
 rm(list = ls())
 
 # set working directory
-setwd("O:/Labor Hengel/Jonas Fuchs - NGS/R Auswertung/Phylogenetic tree/")
+setwd("")
 
 
 # libraries
