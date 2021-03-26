@@ -1,10 +1,3 @@
-# clear workspace
-rm(list = ls())
-
-# set working directory
-setwd("")
-
-
 # libraries
 library(ggplot2)
 library(ggtree)
@@ -12,22 +5,27 @@ library(treeio)
 library(data.table)
 library(xlsx)
 library(RColorBrewer)
+library(dplyr)
 
 # options
 ## provide metadata table as xlsx with seq, info and display_names columns and results of nextclade or pangolin as csv
 
 option_root <- "NC_045512"
-option_clade <- "N" ## choose if Nextclade (N) or Pangolin (P) nomenclature should be displayed
+option_clade <- "P" ## choose if Nextclade (N) or Pangolin (P) nomenclature should be displayed
 option_layout <- "fan" ## see ggtree layouts
 option_text <- "" ##overwrite the display_names with no (N) or all sequences names (A), if not leave empty
-option_color_tip <- T ##show info as tip colors
-option_font_size <- 3
+option_color_tip <- F ##show info as tip colors
+option_font_size <- 4
 option_rename_and_recolor_tip <- T
 option_rename_info <- "Info" ##rename legend
 option_tip_color <- "Dark2" #RColorBrewer palette
-option_pdf_name <- "test" ##for pdf
+option_pdf_name <- "Test" ##for pdf
 option_height <- 10 ##for pdf
 option_width <- 12 ##for pdf
+option_only_specific_clade <- T
+option_spec_clades <- c("B.1.1.7", "B.1.221")
+option_color_branches_manual <- T
+option_branch_color <- c("black", "red", "green")  ##first color is for uncolored branches, provide equal number of colors to number of clades
 
 # format metadata
 
@@ -46,6 +44,19 @@ if(option_clade == "N"){
   clade$clade <- pangolin$Lineage
 } else {
   print("ERROR: N for Nextclade, P for pangolin")
+}
+
+## display secific lineages/clades only
+if(option_only_specific_clade){
+  clade_temp <- clade[clade == option_spec_clades[1]]
+  
+  for(i in 2:length(option_spec_clades)){
+    clade_temp_temp <- clade[clade == option_spec_clades[i]]
+    clade_temp <- rbind(clade_temp, clade_temp_temp)
+  }
+  clade$clade <- NULL
+  clade <- full_join(clade, clade_temp, by = "seq")
+  clade$clade[is.na(clade$clade)] <- "0"
 }
 
 ## create list for OTU assignment
@@ -110,6 +121,11 @@ if(option_rename_and_recolor_tip){
 tree_vis <- tree_vis + 
   geom_tiplab(aes(label = display_names), color = "black", hjust = -.1, size = option_font_size) +
   geom_treescale(fontsize = option_font_size, linesize = 0.2)
+
+if(option_color_branches_manual){
+  tree_vis <- tree_vis +
+    scale_color_manual(values = option_branch_color)
+}
 
 # plot Tree
 pdf(paste0(option_pdf_name, ".pdf"), height = option_height, width = option_width)

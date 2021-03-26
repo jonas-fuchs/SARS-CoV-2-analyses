@@ -1,5 +1,11 @@
+# clear workspace
+rm(list = ls())
+
+# set working directory
+setwd("O:/Labor Hengel/Jonas Fuchs - NGS/R Auswertung/Heatmap/")
 
 # libary import
+
 library(pheatmap)
 library(RColorBrewer)
 library(dplyr)
@@ -10,19 +16,20 @@ library(data.table)
 
 
 # options 
-name_plot <- "name"               ## name your plot
+name_plot <- "Daniels Tante"               ## name your plot
 frequency <- 0.1                   ## adjust the variant frequency
 display_as <- T                     ## display also AS changes 
 percent <- F                        ## should variants be shown as percent?
 rounded <- F                        ## should rounded values be displayed in the map
-multiplier_width <- 0.6             ## pdf weight multiplier - adjust if needed
-multiplier_height <- 0.6            ## pdf height multiplier - adjust if needed
+multiplier_width <- 0.5            ## pdf weight multiplier - adjust if needed
+multiplier_height <- 1.5            ## pdf height multiplier - adjust if needed
 color_gene_annotation <- c("Set3")  ## adjust color of gene annotation ("Set2" or "Paired")
 date <- F                           ## do the file names contain a date (format: dd.mm.yyyy) and you want to sort
 number <- T                         ## do the file names contain a number and you want to sort
 clustering <- F                     ## should the samples be clustered?
 clustering_method <- "ward.D2"      ## what clustering method -> see ?hclust for further information
-number_of_clusters <- 7             ## do you assume a particular amount of clusters?
+number_of_clusters <- 5             ## do you assume a particular amount of clusters?
+
 
 
 # data preparation
@@ -84,28 +91,27 @@ if(rounded){final_rounded <- round(final, 0)} else {final_rounded <- F}
 
 ## readout annotations
 ann_final <- read.table(files[1], header = T, sep = "\t") 
-ann_final <- cbind(paste0(ann_final$POS, ann_final$ALT, if(display_as){paste0(" ", "(", ann_final$EFF....AA, ")")}), ann_final$EFF....EFFECT, ann_final$EFF....GENE)
+ann_final <- data.frame(paste0(ann_final$POS, ann_final$ALT, if(display_as){paste0(" ", "(", ann_final$EFF....AA, ")")}), ann_final$EFF....EFFECT, ann_final$EFF....GENE)
+colnames(ann_final) <- c("position","effect", "gene")
 
 
 for(i in 2:length(files)) {
   ann <- read.table(files[i], header = T, sep = "\t")
-  ann <- cbind(paste0(ann$POS, ann$ALT, if(display_as){paste0(" ", "(", ann$EFF....AA, ")")}), ann$EFF....EFFECT, ann$EFF....GENE)
+  ann <- data.frame(paste0(ann$POS, ann$ALT, if(display_as){paste0(" ", "(", ann$EFF....AA, ")")}), ann$EFF....EFFECT, ann$EFF....GENE)
+  colnames(ann) <- c("position","effect", "gene")
   ann_final <- rbind(ann_final, ann)
 }
 
 ann_final<-data.frame(unique(ann_final))
 
 ## apply frequency filter
-ann_final <- ann_final[ann_final$X1 %in% colnames(final),]
+ann_final <- ann_final[ann_final$position %in% colnames(final),]
 ## sort
-ann_final <- ann_final[str_order(ann_final$X1, numeric = T),]
+ann_final <- ann_final[str_order(ann_final$position, numeric = T),]
 
 ## set rownames
-row.names(ann_final) <- ann_final$X1
+row.names(ann_final) <- ann_final$position
 ann_final <- ann_final[,-1]
-
-## set colnames
-colnames(ann_final) <- c("effect", "gene")
 
 ## rename annotations
 ann_final$effect <- sub("^$", "non-coding", ann_final$effect)
@@ -123,8 +129,10 @@ ann_final$effect[ann_final$effect=="CODON_CHANGE_PLUS_CODON_INSERTION"] <- "inse
 ann_final$effect[ann_final$effect=="FRAME_SHIFT+STOP_LOST+SPLICE_SITE_REGION"] <- "frame shift"
 ann_final$effect[ann_final$effect=="INSERTION"] <- "insertion"
 ann_final$effect[ann_final$effect=="START_LOST"] <- "non-syn"
+ann_final$effect[ann_final$effect=="STOP_LOST+SPLICE_SITE_REGION"] <- "non-syn"
 
-# utomatically determine gaps for the heatmap
+
+# automatically determine gaps for the heatmap
 
 gap_vector <- c()
 
@@ -203,3 +211,15 @@ pheatmap(final,
          )
 
 dev.off()
+
+## file checker - checks if files have the expected column count of 12
+for (i in 1:length(files)) {
+  x <- fread(files[i], header = T, sep = "\t", fill = T)
+  if (ncol(x) == 12){
+    print(paste(files[i], "...............", "ok"))
+  } else {
+    print(paste(files[i], "...............", "error")) 
+    
+  }
+  
+}
