@@ -8,7 +8,7 @@ This plot takes two or more SNPeff annotated vcfs, extracted as tabular files to
 Rscript Heatmap/Heatmap.R
 ```
 
-![Example output](https://github.com/jonas-fuchs/SARS-CoV-2-analyses/tree/main/Heatmap/Heatmap.png)
+![Example output](https://github.com/jonas-fuchs/SARS-CoV-2-analyses/tree/main/Heatmap/Heatmap.png?raw=true)
 
 The script annotates genes and effects automatically based on the tabular files. Multiple **options** allow clustering, sorting and displaying the aminoacid changes in the mutation labels. It is also to display selectively variants that are over a desired frequency.
 
