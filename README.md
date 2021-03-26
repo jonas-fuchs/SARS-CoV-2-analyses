@@ -1,4 +1,4 @@
-# SARS-CoV-2 tools for vizualzation NGS and phylogenetic data
+# SARS-CoV-2 tools for vizualization NGS and phylogenetic data
 
 ## Variant frequency plot
 
