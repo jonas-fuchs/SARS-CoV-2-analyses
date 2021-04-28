@@ -1,4 +1,4 @@
-# SARS-CoV-2 tools for vizualzation NGS and phylogenetic data
+# SARS-CoV-2 tools for vizualization NGS and phylogenetic data
 
 
 ## Installation guide
@@ -31,3 +31,4 @@ Tree clades/Tree_vis.R
 The script allows you to root to a certain sequence and clades can be selectively displayed and colored.
 
 ![Example output](https://raw.githubusercontent.com/jonas-fuchs/SARS-CoV-2-analyses/main/Tree%20clades/Phylogenetic_tree_2.png)
+
