@@ -1,31 +1,41 @@
+# clear workspace
+rm(list = ls())
+
+# set working directory
+setwd("dir")
+
+
 # libraries
-library(ggplot2)
-library(ggtree)
-library(treeio)
-library(data.table)
-library(xlsx)
-library(RColorBrewer)
-library(dplyr)
+list.of.packages <- c("ggplot2", "ggtree", "treeio", "data.table", "xlsx", "RColorBrewer", "dplyr")
+new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
+if(length(new.packages)) install.packages(new.packages)
+
+lapply(list.of.packages, require, character.only = TRUE)
 
 # options
 ## provide metadata table as xlsx with seq, info and display_names columns and results of nextclade or pangolin as csv
 
 option_root <- "NC_045512"
-option_clade <- "P" ## choose if Nextclade (N) or Pangolin (P) nomenclature should be displayed
-option_layout <- "fan" ## see ggtree layouts
-option_text <- "" ##overwrite the display_names with no (N) or all sequences names (A), if not leave empty
-option_color_tip <- F ##show info as tip colors
-option_font_size <- 4
+option_clade <- "N" ## choose if Nextclade (N) or Pangolin (P) nomenclature should be displayed
+option_layout <- "circular" ## see ggtree layouts
+option_text <- "" ## overwrite the display_names with no (N) or all sequences names (A), if not leave empty
+option_color_tip <- T ## show info as tip colors
+option_font_size <- 4 ## adjust front size
 option_rename_and_recolor_tip <- T
 option_rename_info <- "Info" ##rename legend
-option_tip_color <- "Dark2" #RColorBrewer palette
-option_pdf_name <- "Test" ##for pdf
-option_height <- 10 ##for pdf
-option_width <- 12 ##for pdf
-option_only_specific_clade <- T
-option_spec_clades <- c("B.1.1.7", "B.1.221")
+
+option_tip_color <- "M" ## M (manual [M] or automatic [A])
+option_tip_color_automatic <- "Dark2" ## RColorBrewer palette (automatic)
+option_tip_color_manual <- c("grey", "red", "mediumseagreen","black") ## manual colors
+option_tip_size <- 3
+
+option_pdf_name <- "Plot_tree" ## or pdf
+option_height <- 15 ## for pdf
+option_width <- 18 ## for pdf
+option_only_specific_clade <- F
+option_spec_clades <- c("")
 option_color_branches_manual <- T
-option_branch_color <- c("black", "red", "green")  ##first color is for uncolored branches, provide equal number of colors to number of clades
+option_branch_color <- c("black","black", "blue3", "chartreuse4", "coral3")  ##first color is for uncolored branches, provide equal number of colors to number of clades
 
 # format metadata
 
@@ -95,7 +105,12 @@ if(option_text == "A"){
 }
 
 # colors
-tip_color <- brewer.pal(length(unique(metadata$info)), option_tip_color)
+if (option_tip_color == "A"){
+  tip_color <- brewer.pal(length(unique(metadata$info)), option_tip_color_automatic)
+} else if (option_tip_color == "M") {
+  tip_color <- option_tip_color_manual
+}
+
 
 #tree visualization
 if(option_clade == "N" || option_clade == "P"){
@@ -106,11 +121,11 @@ if(option_clade == "N" || option_clade == "P"){
 
 if(option_color_tip){
   tree_vis <- tree_vis %<+% metadata +
-    geom_tippoint(shape = 21, aes(fill = info) , size = 2, color = "black")
+    geom_tippoint(shape = 21, aes(fill = info) , size = option_tip_size, color = "black")
   
 } else {
   tree_vis <- tree_vis %<+% metadata +
-    geom_tippoint(shape = 21, fill = "grey", size = 2, color = "black")
+    geom_tippoint(shape = 21, fill = "grey", size = option_tip_size, color = "black")
 }
 
 if(option_rename_and_recolor_tip){
@@ -119,7 +134,7 @@ if(option_rename_and_recolor_tip){
 }
 
 tree_vis <- tree_vis + 
-  geom_tiplab(aes(label = display_names), color = "black", hjust = -.1, size = option_font_size) +
+  geom_tiplab(aes(label = display_names), color = "black", hjust = -.2, size = option_font_size) +
   geom_treescale(fontsize = option_font_size, linesize = 0.2)
 
 if(option_color_branches_manual){

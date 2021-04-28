@@ -2,33 +2,31 @@
 rm(list = ls())
 
 # set working directory
-setwd("O:/Labor Hengel/Jonas Fuchs - NGS/R Auswertung/Heatmap/")
+setwd("dir")
 
-# libary import
+# library install and import
 
-library(pheatmap)
-library(RColorBrewer)
-library(dplyr)
-library(fs)
-library(tools)
-library(stringr)
-library(data.table)
+list.of.packages <- c("pheatmap", "RColorBrewer", "dplyr", "fs", "tools", "stringr", "data.table")
+new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
+if(length(new.packages)) install.packages(new.packages)
+
+lapply(list.of.packages, require, character.only = TRUE)
 
 
 # options 
-name_plot <- "Daniels Tante"               ## name your plot
-frequency <- 0.1                   ## adjust the variant frequency
+name_plot <- "Plot_name"               ## name your plot
+frequency <- 0.2                   ## adjust the variant frequency
 display_as <- T                     ## display also AS changes 
 percent <- F                        ## should variants be shown as percent?
 rounded <- F                        ## should rounded values be displayed in the map
 multiplier_width <- 0.5            ## pdf weight multiplier - adjust if needed
-multiplier_height <- 1.5            ## pdf height multiplier - adjust if needed
+multiplier_height <- 0.6            ## pdf height multiplier - adjust if needed
 color_gene_annotation <- c("Set3")  ## adjust color of gene annotation ("Set2" or "Paired")
 date <- F                           ## do the file names contain a date (format: dd.mm.yyyy) and you want to sort
 number <- T                         ## do the file names contain a number and you want to sort
 clustering <- F                     ## should the samples be clustered?
 clustering_method <- "ward.D2"      ## what clustering method -> see ?hclust for further information
-number_of_clusters <- 5             ## do you assume a particular amount of clusters?
+number_of_clusters <- 3             ## do you assume a particular amount of clusters?
 
 
 
@@ -130,6 +128,7 @@ ann_final$effect[ann_final$effect=="FRAME_SHIFT+STOP_LOST+SPLICE_SITE_REGION"] <
 ann_final$effect[ann_final$effect=="INSERTION"] <- "insertion"
 ann_final$effect[ann_final$effect=="START_LOST"] <- "non-syn"
 ann_final$effect[ann_final$effect=="STOP_LOST+SPLICE_SITE_REGION"] <- "non-syn"
+ann_final$effect[ann_final$effect=="GENE_FUSION"] <- "non-syn"
 
 
 # automatically determine gaps for the heatmap
