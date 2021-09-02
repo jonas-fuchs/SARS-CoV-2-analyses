@@ -32,3 +32,12 @@ The script allows you to root to a certain sequence and clades can be selectivel
 
 ![Example output](https://raw.githubusercontent.com/jonas-fuchs/SARS-CoV-2-analyses/main/Tree%20clades/Phylogenetic_tree_2.png)
 
+## Genome visualisation
+
+Creates a genome map based on gff3 files and annotes variants based on (annoted) vcf files. The vcf reading is very basic and might have to be adjusted, depending on the format.
+
+```R
+Genome visualisation/Genome_variant_vis.R
+```
+
+![Example output](https://raw.githubusercontent.com/jonas-fuchs/SARS-CoV-2-analyses/main/Genome%20visualisation/Genome_vis.PNG)
