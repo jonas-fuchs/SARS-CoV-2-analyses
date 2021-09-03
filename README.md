@@ -5,6 +5,17 @@
 
 The scripts can be run directly from source code. Dependent libraries are installed automatically if missing.
 
+## Genome visualisation
+
+Creates a genome map based on [gff3 files](https://github.com/jonas-fuchs/SARS-CoV-2-analyses/tree/main/Genome%20visualisation/sequence.gff3) and annotes variants based on (annotated) [vcf files](https://github.com/jonas-fuchs/SARS-CoV-2-analyses/tree/main/Genome%20visualisation/Test.vcf). The vcf reading is very basic and might have to be adjusted, depending on the format.
+
+```R
+Genome visualisation/Genome_variant_vis.R
+```
+
+![Example output](https://raw.githubusercontent.com/jonas-fuchs/SARS-CoV-2-analyses/main/Genome%20visualisation/Genome_vis.PNG)
+
+
 ## Variant frequency plot
 
 The script takes two or more SNPeff annotated vcfs, extracted as tabular files to generate a heatmap of the variant frequencies: [example input](https://github.com/jonas-fuchs/SARS-CoV-2-analyses/tree/main/Heatmap/example_input.rar). 
@@ -32,12 +43,3 @@ The script allows you to root to a certain sequence and clades can be selectivel
 
 ![Example output](https://raw.githubusercontent.com/jonas-fuchs/SARS-CoV-2-analyses/main/Tree%20clades/Phylogenetic_tree_2.png)
 
-## Genome visualisation
-
-Creates a genome map based on [gff3 files](https://github.com/jonas-fuchs/SARS-CoV-2-analyses/tree/main/Genome%20visualisation/sequence.gff3) and annotes variants based on (annoted) [vcf files](https://github.com/jonas-fuchs/SARS-CoV-2-analyses/tree/main/Genome%20visualisation/Test.vcf). The vcf reading is very basic and might have to be adjusted, depending on the format.
-
-```R
-Genome visualisation/Genome_variant_vis.R
-```
-
-![Example output](https://raw.githubusercontent.com/jonas-fuchs/SARS-CoV-2-analyses/main/Genome%20visualisation/Genome_vis.PNG)
