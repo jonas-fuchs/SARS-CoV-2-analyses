@@ -12,7 +12,7 @@ lapply(c(list.of.packages, "trackViewer"), require, character.only = TRUE)
 
 #### working dir ####
 
-wd = "C:/Users/jonas/Downloads/"
+wd = "C:/Users/"
 setwd(wd)
 
 #### options ####
