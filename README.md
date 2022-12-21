@@ -13,7 +13,7 @@ Creates a genome map based on [gff3 files](https://github.com/jonas-fuchs/SARS-C
 Genome visualisation/Genome_variant_vis.R
 ```
 
-![Example output](https://raw.githubusercontent.com/jonas-fuchs/SARS-CoV-2-analyses/main/Genome%20visualisation/Genome_vis.PNG)
+![Example output](https://raw.githubusercontent.com/jonas-fuchs/SARS-CoV-2-analyses/main/Genome%20visualisation/gif.gif)
 
 
 ## Variant frequency plot
