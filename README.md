@@ -10,7 +10,7 @@ The scripts can be run directly from source code. Options can be adjusted in the
 Creates a genome map based on [gff3 files](https://github.com/jonas-fuchs/SARS-CoV-2-analyses/tree/main/Genome%20visualisation/sequence.gff3) and annotes variants from SNPeff annotated vcfs [vcf files](https://github.com/jonas-fuchs/SARS-CoV-2-analyses/tree/main/Genome%20visualisation/test.vcf). Comparison to [reference vcfs](https://github.com/jonas-fuchs/SARS-CoV-2-analyses/tree/main/Genome%20visualisation/ref.vcf) is possible (difference/union).
 
 ```R
-Genome visualisation/genomet_vis.R
+Genome visualisation/genome_vis.R
 ```
 
 Multiple options let you explore the genome in more detail:
