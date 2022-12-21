@@ -3,15 +3,17 @@
 
 ## Installation guide
 
-The scripts can be run directly from source code. Dependent libraries are installed automatically if missing.
+The scripts can be run directly from source code. Options can be adjusted in the code. Dependent libraries are installed automatically if missing.
 
 ## Genome visualisation
 
-Creates a genome map based on [gff3 files](https://github.com/jonas-fuchs/SARS-CoV-2-analyses/tree/main/Genome%20visualisation/sequence.gff3) and annotes variants based on (annotated) [vcf files](https://github.com/jonas-fuchs/SARS-CoV-2-analyses/tree/main/Genome%20visualisation/Test.vcf). The vcf reading is very basic and might have to be adjusted, depending on the format.
+Creates a genome map based on [gff3 files](https://github.com/jonas-fuchs/SARS-CoV-2-analyses/tree/main/Genome%20visualisation/sequence.gff3) and annotes variants from SNPeff annotated vcfs [vcf files](https://github.com/jonas-fuchs/SARS-CoV-2-analyses/tree/main/Genome%20visualisation/test.vcf). Comparison to [reference vcfs](https://github.com/jonas-fuchs/SARS-CoV-2-analyses/tree/main/Genome%20visualisation/ref.vcf) is possible (difference/union).
 
 ```R
-Genome visualisation/Genome_variant_vis.R
+Genome visualisation/genomet_vis.R
 ```
+
+Multiple options let you explore the genome in more detail:
 
 ![Example output](https://raw.githubusercontent.com/jonas-fuchs/SARS-CoV-2-analyses/main/Genome%20visualisation/gif.gif)
 
