@@ -1,5 +1,7 @@
 # SARS-CoV-2 tools for vizualization NGS and phylogenetic data
 
+[![DOI](https://zenodo.org/badge/336032336.svg)](https://zenodo.org/badge/latestdoi/336032336)
+
 
 ## Installation guide
 
